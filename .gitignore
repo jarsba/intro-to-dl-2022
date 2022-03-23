@@ -152,5 +152,6 @@ cython_debug/
 #.idea/
 .vector_cache/
 
-assignment_3/data
-project/data
+assignment_3/data/*
+project/data/*
+project/data.zip
