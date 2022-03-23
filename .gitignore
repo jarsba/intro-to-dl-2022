@@ -153,3 +153,4 @@ cython_debug/
 .vector_cache/
 
 assignment_3/data
+project/data
