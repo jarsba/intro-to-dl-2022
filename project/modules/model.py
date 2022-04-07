@@ -19,35 +19,57 @@ class CNN(nn.Module):
     def __init__(self, num_classes=NUM_CLASSES):
         super(CNN, self).__init__()
         self.conv_layers = nn.Sequential(
-            nn.Conv2d(3, 32, kernel_size=5, stride=2),
-            nn.GroupNorm(8,32),
-            nn.LeakyReLU(),
-            nn.Conv2d(32, 64, kernel_size=5, stride=2),
-            nn.GroupNorm(8,64),
-            nn.LeakyReLU(),
-            nn.Conv2d(64,128, kernel_size=5, stride=2),
-            nn.GroupNorm(8,128),
-            nn.LeakyReLU(),
-            nn.Conv2d(128,16, kernel_size=1),
-            nn.GroupNorm(8,16),
-            nn.LeakyReLU(),
-
+            #first conv
+            nn.Conv2d(3, 64, kernel_size=3),
+            nn.GroupNorm(16,64),
+            nn.ReLU(),
+            nn.Conv2d(64, 64, kernel_size=3),
+            nn.GroupNorm(16,64),
+            nn.ReLU(),
+            nn.MaxPool2d((2,2), stride=2),
+            #second conv
+            nn.Conv2d(64,128, kernel_size=3),
+            nn.GroupNorm(16,128),
+            nn.ReLU(),
+            nn.Conv2d(128,128, kernel_size=3),
+            nn.GroupNorm(16,128),
+            nn.ReLU(),
+            nn.MaxPool2d((2,2), stride=2),
+            #third conv
+            nn.Conv2d(128,256, kernel_size=3),
+            nn.GroupNorm(16,256),
+            nn.ReLU(),
+            nn.Conv2d(256,256, kernel_size=3),
+            nn.GroupNorm(16,256),
+            nn.ReLU(),
+            nn.Conv2d(256,256, kernel_size=3),
+            nn.GroupNorm(16,256),
+            nn.ReLU(),
+            nn.MaxPool2d((2,2), stride=2),
+            #fourth conv
+            nn.Conv2d(256,512, kernel_size=3),
+            nn.GroupNorm(16,512),
+            nn.ReLU(),
+            nn.Conv2d(512,512, kernel_size=3),
+            nn.GroupNorm(16,512),
+            nn.ReLU(),
+            nn.Conv2d(512,512, kernel_size=3),
+            nn.GroupNorm(16,512),
+            nn.ReLU(),
+            nn.MaxPool2d((2,2), stride=2)
         )
         self.fc_layers = nn.Sequential(
-            nn.Linear(2704, 2048),
-            nn.Tanh(),
-            nn.Dropout(0.2),
-            nn.Linear(2048, 2048),
-            nn.Tanh(),
-            nn.Dropout(0.2),
-            nn.Linear(2048, 2048),
-            nn.Tanh(),
-            nn.Dropout(0.2),
-            nn.Linear(2048, 128),
-            nn.Tanh(),
-            nn.Dropout(0.2),
-            nn.Linear(128, NUM_CLASSES),
-            nn.Sigmoid()
+            nn.Linear(2048, 4096),
+            nn.ReLU(),
+            nn.Dropout(0.33),
+            nn.Linear(4096, 4096),
+            nn.ReLU(),
+            nn.Dropout(0.33),
+            nn.Linear(4096, 1000),
+            nn.ReLU(),
+            nn.Dropout(0.33),
+            nn.Linear(1000, NUM_CLASSES),
+            #nn.Sigmoid()
         )
 
     def forward(self, x):
