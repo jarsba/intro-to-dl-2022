@@ -11,7 +11,6 @@ import pickle
 class ProjectDataset(Dataset):
 
     def __init__(self, annotations_dir, img_dir, transform=None, target_transform=None, rebuildAnnotations=False):
-        super.__init__()
         self.imagePaths = glob.glob(f'{img_dir}{os.sep}*.jpg')
         self.annotationPaths = glob.glob(f'{annotations_dir}{os.sep}*.txt')
         self.annotationPaths.sort()
