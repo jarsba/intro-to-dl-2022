@@ -79,13 +79,15 @@ class ProjectTestDataset(Dataset):
 
     def __init__(self, img_dir='test_data/images') -> None:
         super().__init__()
-        self.imagePaths = glob.glob(f'{img_dir}{os.sep}*.jpg')
+        self.imgDir = img_dir
 
     def __getitem__(self, index):
-        return read_image(self.imagePaths[index] , mode=ImageReadMode.RGB) 
+        picture_id = 20000 + index + 1
+        path = f'{self.imgDir}{os.sep}im{picture_id}.jpg'
+        return read_image(path , mode=ImageReadMode.RGB) 
 
     def __len__(self):
-        return len(self.imagePaths)
+        return len(glob.glob(f'{self.imgDir}{os.sep}*.jpg'))
 
 
 if __name__ == "__main__":
